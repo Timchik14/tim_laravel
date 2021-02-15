@@ -32,7 +32,7 @@ class PostsController extends Controller
     public function store(PostRequest $postRequest)
     {
         $validated = $postRequest->validated();
-        
+
         if (!request()->get('published')) {
             $validated['created_at'] = null;
         }
@@ -40,7 +40,7 @@ class PostsController extends Controller
         $validated['published'] = (request()->get('published') === 'on');
 
         Post::create($validated);
-        return redirect(route('posts.index'));
+        return redirect(route('posts.index'))->with('status', 'Post saved!');
     }
 
     public function edit(Post $post)
@@ -59,12 +59,12 @@ class PostsController extends Controller
         $validated['published'] = (request()->get('published') === 'on');
 
         $post->update($validated);
-        return redirect(route('posts.index'));
+        return redirect(route('posts.index'))->with('status', 'Updates saved!');
     }
 
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect(route('posts.index'));
+        return redirect(route('posts.index'))->with('status', 'Post deleted!');
     }
 }
