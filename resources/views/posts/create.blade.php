@@ -7,7 +7,7 @@
         </h3>
 
         @include('layout.errors')
-        <form method="post" action="<?=route('posts.store')?>">
+        <form method="post" action="{{ route('posts.store') }}">
             @include('posts.create_edit_form')
         </form>
     </div>

@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\Post;
 
 class PostRequest extends FormRequest
 {
@@ -28,12 +30,12 @@ class PostRequest extends FormRequest
             'short_description' => 'required|max:255',
             'long_description' => 'required',
             'body' => 'required',
+            'slug' => ['required', 'regex:/^[a-zA-Z0-9-_]+$/',],
         ];
-
-        if ($this->getMethod() == 'POST') {
-            $rules['slug'] = 'required|unique:posts|regex:/^[a-zA-Z0-9-_]+$/';
+        if ($this->route()->hasParameter('post')) {
+            $rules['slug'][] = Rule::unique('posts')->ignore($this->route()->parameter('post')->id);
         } else {
-            $rules['slug'] = 'required|regex:/^[a-zA-Z0-9-_]+$/';
+            $rules['slug'][] = 'unique:posts';
         }
 
         return $rules;

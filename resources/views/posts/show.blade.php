@@ -16,7 +16,7 @@
             <hr>
             <p>{{ $post->body }}</p>
             <hr>
-            <p><a href="<?=route('posts.index');?>">На главную</a></p>
+            <p><a href="{{ route('posts.index') }}">На главную</a></p>
 
         </div>
     </div>

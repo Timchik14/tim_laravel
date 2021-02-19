@@ -7,12 +7,12 @@
         </h3>
 
         @include('layout.errors')
-        <form method="post" action="/posts/{{ $post->slug }}">
+        <form method="post" action="{{ route('posts.show', ['post' => $post->slug]) }}">
             @method('PATCH')
             @include('posts.create_edit_form')
         </form>
         <br>
-        <form method="post" action="/posts/{{ $post->slug }}">
+        <form method="post" action="{{ route('posts.show', ['post' => $post->slug]) }}">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger">Удалить</button>
