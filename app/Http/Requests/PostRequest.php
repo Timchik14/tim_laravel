@@ -30,12 +30,11 @@ class PostRequest extends FormRequest
             'short_description' => 'required|max:255',
             'long_description' => 'required',
             'body' => 'required',
-            'slug' => ['required', 'regex:/^[a-zA-Z0-9-_]+$/',],
+            'slug' => ['required', 'regex:/^[a-zA-Z0-9-_]+$/', 'unique:posts'],
         ];
         if ($this->route()->hasParameter('post')) {
-            $rules['slug'][] = Rule::unique('posts')->ignore($this->route()->parameter('post')->id);
-        } else {
-            $rules['slug'][] = 'unique:posts';
+            $idToIgnore = $this->route()->parameter('post')->id;
+            $rules['slug'][2] = "unique:posts,slug,$idToIgnore";
         }
 
         return $rules;

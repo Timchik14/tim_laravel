@@ -8,11 +8,11 @@
         </h3>
         <div class="blog-post">
             <h2 class="blog-post-title">{{ $post->name }}</h2>
-            <p><a href="/posts/{{ $post->slug }}/edit">Редактировать</a></p>
+            <p><a href=" {{ route('posts.edit', ['post' => $post->slug]) }}">Редактировать</a></p>
             <p class="blog-post-meta">{{ $post->created_at->toFormattedDateString() }}</p>
             <p>{{ $post->short_description }}</p>
             <hr>
-            <p>{{ $post->long_description  }}</p>
+            <p>{{ $post->long_description }}</p>
             <hr>
             <p>{{ $post->body }}</p>
             <hr>
