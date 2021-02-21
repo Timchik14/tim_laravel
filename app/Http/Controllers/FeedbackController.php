@@ -19,7 +19,7 @@ class FeedbackController extends Controller
         ]);
 
         Message::create(request()->all());
-        return redirect(route('admin.feedbacks'));
+        return redirect(route('contacts.feedbacks'));
     }
 
     public function show()

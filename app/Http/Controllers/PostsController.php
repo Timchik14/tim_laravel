@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
 
 class PostsController extends Controller
@@ -14,7 +15,6 @@ class PostsController extends Controller
 
     public function about()
     {
-        $post = Post::latest()->published()->get();
         return view('about.index');
     }
 
@@ -24,22 +24,47 @@ class PostsController extends Controller
         return view('posts.show', compact('post'));
     }
 
-    public function create()
+    public function create(Post $post)
     {
-        return view('posts.create');
+        return view('posts.create', compact('post'));
     }
 
-    public function store()
+    public function store(PostRequest $postRequest)
     {
-        $all = $this->validate(request(), [
-                    'slug' => 'required|unique:posts|regex:/^[a-zA-Z0-9-_]+$/',
-                    'name' => 'required|min:5|max:100',
-                    'short_description' => 'required|max:255',
-                    'long_description' => 'required',
-                    'body' => 'required',
-                ]);
-        $all['published'] = (request()->get('published') === 'on');
-        Post::create($all);
-        return redirect(route('main'));
+        $validated = $postRequest->validated();
+
+        if (!request()->get('published')) {
+            $validated['created_at'] = null;
+        }
+
+        $validated['published'] = (request()->get('published') === 'on');
+
+        Post::create($validated);
+        return redirect(route('posts.index'))->with('status', 'Post saved!');
+    }
+
+    public function edit(Post $post)
+    {
+        return view('posts.edit', compact('post'));
+    }
+
+    public function update(Post $post, PostRequest $postRequest)
+    {
+        $validated = $postRequest->validated();
+
+        if (!request()->get('published')) {
+            $validated['created_at'] = null;
+        }
+
+        $validated['published'] = (request()->get('published') === 'on');
+
+        $post->update($validated);
+        return redirect(route('posts.index'))->with('status', 'Updates saved!');
+    }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+        return redirect(route('posts.index'))->with('status', 'Post deleted!');
     }
 }
