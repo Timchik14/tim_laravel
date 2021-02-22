@@ -18,9 +18,12 @@
     </div>
     <div class="mb-3">
         <label for="body" class="form-label">Текст статьи</label>
-        <textarea type="text" class="form-control" id="body" name="body" value="">{{ old('body', $post->body) }}</textarea>
+        <textarea class="form-control" id="body" name="body" value="">{{ old('body', $post->body) }}</textarea>
     </div>
-
+    <div class="mb-3">
+        <label for="body" class="form-label">Теги</label>
+        <input type="text" class="form-control" id="tags" name="tags" value="{{ old('tags', $post->tags->pluck('name')->implode(',')) }}">
+    </div>
     <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="published" name="published" {{ $post->created_at ? 'checked' : '' }}>
         <label class="form-check-label" for="published">Опубликовать</label>

@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use App\Models\Tag;
+use App\Services\TagsSynchronizer;
 
 class PostsController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->published()->get();
+        $posts = Post::with('tags')->latest()->published()->get();
         return view('index', compact('posts'));
     }
 
@@ -40,6 +42,7 @@ class PostsController extends Controller
         $validated['published'] = (request()->get('published') === 'on');
 
         Post::create($validated);
+
         return redirect(route('posts.index'))->with('status', 'Post saved!');
     }
 
@@ -59,6 +62,13 @@ class PostsController extends Controller
         $validated['published'] = (request()->get('published') === 'on');
 
         $post->update($validated);
+
+        $tags = collect(explode(',', request('tags')))->keyBy(function ($item) {
+            return $item;
+        });
+
+        TagsSynchronizer::sync($tags, $post);
+
         return redirect(route('posts.index'))->with('status', 'Updates saved!');
     }
 
