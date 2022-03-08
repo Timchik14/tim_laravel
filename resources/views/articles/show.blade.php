@@ -7,6 +7,7 @@
         </h3>
         <div class="blog-post">
             <h2 class="blog-post-title">{{ $article->name }}</h2>
+            <p><a href=" {{ route('articles.edit', ['article' => $article->slug]) }}">Редактировать</a></p>
             <p class="blog-post-meta">{{ $article->created_at->toFormattedDateString() }}</p>
             <p>{{ $article->short_description }}</p>
             <hr>
@@ -14,7 +15,7 @@
             <hr>
             <p>{{ $article->body }}</p>
             <hr>
-            <p><a href="<?=route('main');?>">На главную</a></p>
+            <p><a href="{{ route('articles.index') }}">На главную</a></p>
 
         </div>
     </div>

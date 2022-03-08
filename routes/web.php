@@ -2,13 +2,12 @@
 
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\FeedbacksController;
+use Illuminate\Support\Facades\Route;
+
 
 Route::get('/about', [ArticlesController::class, 'about'])->name('about');
 
-Route::get('/', [ArticlesController::class, 'index'])->name('main');
-Route::get('/articles/create', [ArticlesController::class, 'create'])->name('article.create');
-Route::post('/articles', [ArticlesController::class, 'store'])->name('articles');
-Route::get('/articles/{article}', [ArticlesController::class, 'show'])->name('article.show');
+Route::resource('/articles', ArticlesController::class);
 
 Route::get('/contacts', [FeedbacksController::class, 'create'])->name('contacts');
 Route::post('/contacts', [FeedbacksController::class, 'store']);

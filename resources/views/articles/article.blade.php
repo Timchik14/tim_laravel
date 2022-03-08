@@ -1,5 +1,5 @@
 <div class="blog-post">
-    <a href="<?=route('article.show', ['article' => $article]);?>">
+    <a href="{{ route('articles.show', ['article' => $article]) }}">
         <h2 class="blog-post-title">{{ $article->name }}</h2>
     </a>
     <p class="blog-post-meta">{{ $article->created_at->toFormattedDateString() }}</p>

@@ -8,7 +8,7 @@
 
         @include('layout.errors')
 
-        <form method="post" action="<?=route('contacts')?>">
+        <form method="post" action="{{ route('contacts') }}">
 
             @csrf
 

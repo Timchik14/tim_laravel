@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\Request;
 use App\Models\Article;
 
@@ -23,22 +24,37 @@ class ArticlesController extends Controller
         return view('articles.show', compact('article'));
     }
 
-    public function create()
+    public function create(Article $article)
     {
-        return view('articles.create');
+        return view('articles.create', compact('article'));
     }
 
-    public function store()
+    public function store(ArticleRequest $articleRequest)
     {
-        $all = $this->validate(request(), [
-            'slug' => 'required|unique:articles|regex:/^[a-zA-Z0-9-_]+$/',
-            'name' => 'required|min:5|max:100',
-            'short_description' => 'required|max:255',
-            'long_description' => 'required',
-            'body' => 'required',
-        ]);
-        $all['created_at'] = ((request()->get('published') === 'on') ? time() : null);
-        Article::create($all);
-        return redirect(route('main'));
+        $validated = $articleRequest->validated();
+        $validated['created_at'] = (request()->get('published') === 'on' ? time() : null);
+
+        Article::create($validated);
+        return redirect(route('articles.index'))->with('status', 'Article saved!');
+    }
+
+    public function edit(Article $article)
+    {
+        return view('articles.edit', compact('article'));
+    }
+
+    public function update(Article $article, ArticleRequest $articleRequest)
+    {
+        $validated = $articleRequest->validated();
+        $validated['created_at'] = (request()->get('published') === 'on' ? time() : null);
+
+        $article->update($validated);
+        return redirect(route('articles.index'))->with('status', 'Article changed!');
+    }
+
+    public function destroy(Article $article)
+    {
+        $article->delete();
+        return redirect(route('articles.index'))->with('status', 'Article deleted!');
     }
 }
