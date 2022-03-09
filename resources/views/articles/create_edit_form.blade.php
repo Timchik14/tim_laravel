@@ -18,7 +18,11 @@
 </div>
 <div class="mb-3">
     <label for="body" class="form-label">Текст статьи</label>
-    <input type="text" class="form-control" id="body" name="body" value="{{ old('body', $article->body) }}">
+    <textarea class="form-control" id="body" name="body" value="">{{ old('body', $article->body) }}</textarea>
+</div>
+<div class="mb-3">
+    <label for="body" class="form-label">Теги</label>
+    <input type="text" class="form-control" id="tags" name="tags" value="{{ old('tags', $article->tags->pluck('name')->implode(',')) }}">
 </div>
 
 <div class="mb-3 form-check">
