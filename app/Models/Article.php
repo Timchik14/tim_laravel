@@ -13,4 +13,9 @@ class Article extends Model
     {
         return 'slug';
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }

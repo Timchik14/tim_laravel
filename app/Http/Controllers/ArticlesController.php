@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Tag;
 
 class ArticlesController extends Controller
 {
     public function index()
     {
-        $articles = Article::latest()->published()->get();
+        $articles = Article::with('tags')->latest()->published()->get();
         return view('index', compact('articles'));
     }
 

@@ -27,7 +27,6 @@ class ArticleRequest extends FormRequest
             $idToIgnore = ($this->route()->parameter('article')->id);
             $rules['slug'][2] = "unique:articles,slug,$idToIgnore";
         }
-
         return $rules;
     }
 }

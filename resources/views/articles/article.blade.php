@@ -3,6 +3,9 @@
         <h2 class="blog-post-title">{{ $article->name }}</h2>
     </a>
     <p class="blog-post-meta">{{ $article->created_at->toFormattedDateString() }}</p>
+
+    @include('articles.tags', ['tags' => $article->tags])
+
     <hr>
     <p>{{ $article->short_description }}</p>
     <hr>
